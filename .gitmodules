@@ -1,0 +1,3 @@
+[submodule "projects/landing"]
+	path = projects/landing
+	url = https://github.com/doggoTalent/landing
