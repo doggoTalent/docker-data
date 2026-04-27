@@ -1,0 +1,20 @@
+# Secrets
+.env
+
+# Docker named volumes data (Currently - None)
+volumes/grafana/data/
+volumes/prometheus/data/
+
+# Local scripts logs
+*.log
+
+# IDE / OS junk
+.DS_Store
+*.swp
+*.swo
+*.tmp
+
+# Landing build artifacts (if you ever compile something)
+projects/landing/node_modules/
+projects/landing/dist/
+EOF
