@@ -6,7 +6,7 @@ Production-ready monitoring suite with Grafana, Prometheus, Node Exporter, and a
 
 | Service        | Description                         | Internal port       | Public endpoint                    |
 |----------------|-------------------------------------|---------------------|------------------------------------|
-| landing        | Static landing page (portfolio)     | 8000                | `https://doggotalent.xyz`          |
+| landing        | Static landing page                 | 8000                | `https://doggotalent.xyz`          |
 | prometheus     | Metrics collection & storage        | 9090                | (internal only)                    |
 | grafana        | Dashboards & visualisation          | 3000                | `https://doggotalent.xyz/grafana/` |
 | node_exporter  | Host system metrics (CPU, RAM, etc) | 9100                | (internal only)                    |
