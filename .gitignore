@@ -14,6 +14,9 @@ volumes/prometheus/data/
 *.swo
 *.tmp
 
+# Nested Repos
+projects/landing/
+
 # Landing build artifacts (if you ever compile something)
 projects/landing/node_modules/
 projects/landing/dist/
