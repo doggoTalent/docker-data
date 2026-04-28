@@ -22,7 +22,7 @@ Monitoring suite with Grafana, Prometheus, Node Exporter, and a static landing p
 
 ## Files
 .
-├── projects
+├── projects.
 │   └── landing
 │       ├── Dockerfile                        # Image for landing container
 │       └── ... 
