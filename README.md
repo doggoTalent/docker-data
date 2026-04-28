@@ -7,8 +7,8 @@ Monitoring suite with Grafana, Prometheus, Node Exporter, and a static landing p
 | Service        | Description                         | Internal port       | Public endpoint                    |
 |----------------|-------------------------------------|---------------------|------------------------------------|
 | landing        | Static landing page                 | 8000                | `https://doggotalent.xyz`          |
-| prometheus     | Metrics collection & storage        | 9090                | (internal only)                    |
 | grafana        | Dashboards & visualisation          | 3000                | `https://doggotalent.xyz/grafana/` |
+| prometheus     | Metrics collection & storage        | 9090                | (internal only)                    |
 | node_exporter  | Host system metrics (CPU, RAM, etc) | 9100                | (internal only)                    |
 
 ## Features
@@ -21,8 +21,9 @@ Monitoring suite with Grafana, Prometheus, Node Exporter, and a static landing p
 - **Submodule** – Landing page source lives in [`doggoTalent/landing`](https://github.com/doggoTalent/landing) (linked as `projects/landing`).
 
 ## Files
+```text
 .
-├── projects.
+├── projects
 │   └── landing
 │       ├── Dockerfile                        # Image for landing container
 │       └── ... 
@@ -40,10 +41,10 @@ Monitoring suite with Grafana, Prometheus, Node Exporter, and a static landing p
 │       └── config
 │           └── prometheus.yml                 # Prometheus main config file
 ├── README.md
-├── docker-compose.yml                         **# Main orchestration file**
+├── docker-compose.yml                         # Main orchestration file
 ├── test.sh
-└── update-landing.sh                          # Semi-automated script for updating container: git pull, rebuild, and restart container 
-
+└── update-landing.sh                          # Semi-automated script for updating container: git pull, rebuild, and restart container
+```
 ## Requirements
 
 - Docker Engine ≥ 20.10
