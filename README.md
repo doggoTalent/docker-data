@@ -1,6 +1,6 @@
-# Docker monitoring stack
+# Docker containers and network configuration
 
-Production-ready monitoring suite with Grafana, Prometheus, Node Exporter, and a static landing page.
+Monitoring suite with Grafana, Prometheus, Node Exporter, and a static landing page.
 
 ## Services
 
@@ -19,6 +19,30 @@ Production-ready monitoring suite with Grafana, Prometheus, Node Exporter, and a
   - Prometheus datasource pre‑configured.
   - Node Exporter Full dashboard (ID 1860) pre‑loaded.
 - **Submodule** – Landing page source lives in [`doggoTalent/landing`](https://github.com/doggoTalent/landing) (linked as `projects/landing`).
+
+## Files
+.
+├── projects
+│   └── landing
+│       ├── Dockerfile                        # Image for landing container
+│       └── ... 
+├── volumes
+│   ├── grafana
+│   │   ├── config
+│   │   │   └── grafana.ini                    # Grafana main config file
+│   │   └── provisioning
+│   │       ├── dashboards
+│   │       │   ├── dashboards.yml             # Grafana config for managing dashboards
+│   │       │   └── node_exporter_full.json    # Grafana dashboard preset 
+│   │       └── datasources
+│   │           └── prometheus.yml             # Grafana config for managing datasources
+│   └── prometheus
+│       └── config
+│           └── prometheus.yml                 # Prometheus main config file
+├── README.md
+├── docker-compose.yml                         **# Main orchestration file**
+├── test.sh
+└── update-landing.sh                          # Semi-automated script for updating container: git pull, rebuild, and restart container 
 
 ## Requirements
 
