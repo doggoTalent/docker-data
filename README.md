@@ -42,7 +42,8 @@ Monitoring suite with Grafana, Prometheus, Node Exporter, and a static landing p
 │           └── prometheus.yml                 # Prometheus main config file
 ├── README.md
 ├── docker-compose.yml                         # Main orchestration file
-├── test.sh
+├── test.sh                                    # Automated script for updating container, ready to be put in cron 
+├── test.sh                                    # Some tests
 └── update-landing.sh                          # Semi-automated script for updating container: git pull, rebuild, and restart container
 ```
 ## Requirements
