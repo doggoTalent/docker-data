@@ -1,4 +1,5 @@
 # Secrets
+alertmanager.yml
 .env
 
 # Docker named volumes data (Currently - None)

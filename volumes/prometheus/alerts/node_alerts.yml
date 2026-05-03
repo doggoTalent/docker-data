@@ -1,0 +1,103 @@
+groups:
+  - name: node_exporter_critical
+    interval: 30s
+    rules:
+      # ----- Host is down -----
+      - alert: HostDown
+        expr: up{job="node_exporter"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Host {{ $labels.instance }} is down"
+          description: "Prometheus hasn't scraped node_exporter for more than 1 minute."
+
+      # ----- CPU load average (1m) > 1.6 on 2‑core VPS (80% of cores) -----
+      - alert: HighLoadAverage
+        expr: node_load1 > 1.6
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High load average on {{ $labels.instance }}"
+          description: "Load average (1m) is {{ $value }}. Threshold is 1.6 on 2 vCPUs."
+
+      # ----- CPU usage percentage > 90% for 10 minutes -----
+      - alert: HighCPUUsage
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 90
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is {{ $value }}% for 10 minutes."
+
+      # ----- Memory available < 10% -----
+      - alert: LowMemory
+        expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 < 10
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Low memory on {{ $labels.instance }}"
+          description: "Only {{ $value | printf \"%.1f\" }}% memory available. Total RAM: 4 GB."
+
+      # ----- Disk space critical < 10% -----
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_avail_bytes{mountpoint="/", fstype!="overlay"} / node_filesystem_size_bytes{mountpoint="/", fstype!="overlay"}) * 100 < 10
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Only {{ $value | printf \"%.1f\" }}% free on root disk (40 GB)."
+
+      # ----- Disk space warning < 20% -----
+      - alert: DiskSpaceWarning
+        expr: (node_filesystem_avail_bytes{mountpoint="/", fstype!="overlay"} / node_filesystem_size_bytes{mountpoint="/", fstype!="overlay"}) * 100 < 20
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Disk space warning on {{ $labels.instance }}"
+          description: "Only {{ $value | printf \"%.1f\" }}% free on root disk."
+
+      # ----- Disk filling prediction (root mount) -----
+      - alert: DiskWillFillIn4h
+        expr: predict_linear(node_filesystem_free_bytes{mountpoint="/", fstype!="overlay"}[1h], 4*3600) < 0
+        for: 30m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Disk / is filling up fast on {{ $labels.instance }}"
+          description: "Based on recent writes, disk will be full in less than 4 hours."
+
+      # ----- Network receive errors -----
+      - alert: NetworkReceiveErrors
+        expr: rate(node_network_receive_errs_total{device!~"lo|veth.*"}[2m]) > 0.1
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Network receive errors on {{ $labels.device }} ({{ $labels.instance }})"
+          description: "Error rate: {{ $value | printf \"%.2f\" }} errors/second"
+
+      # ----- Network transmit errors -----
+      - alert: NetworkTransmitErrors
+        expr: rate(node_network_transmit_errs_total{device!~"lo|veth.*"}[2m]) > 0.1
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Network transmit errors on {{ $labels.device }} ({{ $labels.instance }})"
+          description: "Error rate: {{ $value | printf \"%.2f\" }} errors/second"
+
+      # ----- Systemd service failed (if node_exporter can read systemd) -----
+      - alert: SystemdServiceFailed
+        expr: node_systemd_unit_state{state="failed"} == 1
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Systemd service {{ $labels.name }} failed on {{ $labels.instance }}"
+          description: "Service {{ $labels.name }} entered failed state."

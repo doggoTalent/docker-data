@@ -7,6 +7,7 @@ networks:
 volumes:
   prometheus_data:
   grafana_data:
+  alertmanager_data:
 
 services:
   landing:
@@ -15,9 +16,7 @@ services:
     build: ./projects/landing
     ports:
       - "127.0.0.1:8080:8000"
-    networks:
-      - monitoring
-    stop_grace_period: 5s
+    stop_grace_period: 2s
     restart: unless-stopped
 
   prometheus:
@@ -26,7 +25,8 @@ services:
     ports:
       - "127.0.0.1:9090:9090"
     volumes:
-      - ./volumes/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./volumes/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./volumes/prometheus/alerts/node_alerts.yml:/etc/prometheus/node_alerts.yml:ro
       - prometheus_data:/prometheus
     networks:
       - monitoring
@@ -38,7 +38,7 @@ services:
     ports:
       - "127.0.0.1:3000:3000"
     volumes:
-      - ./volumes/grafana/config/grafana.ini:/etc/grafana/grafana.ini:ro
+      - ./volumes/grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ./volumes/grafana/provisioning:/etc/grafana/provisioning:ro
       - grafana_data:/var/lib/grafana
     networks:
@@ -57,3 +57,18 @@ services:
       - '--path.sysfs=/host/sys'
     volumes:
       - '/:/host:ro,rslave'
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    ports:
+      - "127.0.0.1:9093:9093"
+    volumes:
+      - ./volumes/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - alertmanager_data:/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+    networks:
+      - monitoring
+    restart: unless-stopped
