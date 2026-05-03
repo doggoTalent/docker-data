@@ -1,1 +1,31 @@
-README.md
+# Secrets and tokens
+*.env
+volumes/alertmanager/alertmanager.yml
+volumes/grafana/grafana.ini
+
+# Docker volume data (managed by Docker, not part of repo)
+prometheus_data/
+grafana_data/
+alertmanager-data/
+
+# Local logs and test artifacts
+*.log
+*.pid
+test.sh
+auto_updater_landing.sh
+update-landing.sh
+temp/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# IDE / editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Submodules
+projects/landing/.git/
+projects/landing/temp/
