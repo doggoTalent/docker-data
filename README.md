@@ -6,7 +6,7 @@ Monitoring suite with Grafana, Prometheus, Alertmanager, Node Exporter, and a st
 
 | Service        | Description                         | Internal port       | Public endpoint                    |
 |----------------|-------------------------------------|---------------------|------------------------------------|
-| landing        | Static landing page                 | 8000                | `https://doggotalent.xyz`          |
+| landing        | Static landing page                 | 8080                | `https://doggotalent.xyz`          |
 | grafana        | Dashboards & visualisation          | 3000                | `https://doggotalent.xyz/grafana/` |
 | prometheus     | Metrics collection & storage        | 9090                | (internal only)                    |
 | alertmanager   | Alert routing (Telegram)            | 9093                | (internal only)                    |
